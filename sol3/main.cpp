@@ -11,6 +11,8 @@
 using namespace Ogre;
 
 #define DEGTORAD(A) A*3.141592/180
+#define DIRECTION_RIGHT true
+#define DIRECTION_LEFT false
 #define VELOCITY 300
 #define DISTANCE 250
 
@@ -45,34 +47,39 @@ public:
 
     // Fill Here ----------------------------------------------
 
-	  static bool professorTurn = false;
-	  static bool professorMoveRight = true;
+	  static bool professorTurning = false;
+	  static bool professorDirection = DIRECTION_RIGHT;
 
 	  static float professorTurnCount;
 	  static float fishRotation = 0;
 
-	  if (false == professorTurn)
+	  if (!professorTurning)
 	  {
-		  if (true == professorMoveRight)
+		  if (DIRECTION_RIGHT == professorDirection)
 		  {
 			  if (mProfessorNode->getPosition().x < DISTANCE)
 				  mProfessorNode->translate(VELOCITY * evt.timeSinceLastFrame, 0, 0);
 			  else
 			  {
-				  professorTurn = true;
+				  professorTurning = true;
 
 			  }
 		  }
-		  else
+		  else // DIRECTION_REFT == professorDirection
 		  {
 			  if (mProfessorNode->getPosition().x > -DISTANCE)
 				  mProfessorNode->translate(-VELOCITY * evt.timeSinceLastFrame, 0, 0);
 			  else
 			  {
-				  professorTurn = true;
+				  professorTurning = true;
 
 			  }
 		  }
+
+		  ////mFishNode->setPosition(0,0,0);
+		  //mFishNode->translate(0,0,-100);
+		  //mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
+		  //mFishNode->translate(0,0,100);
 
 		  mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
 		  mFishNode->setPosition(100 * sin(DEGTORAD(fishRotation)), 0, 100 * cos(DEGTORAD(fishRotation)));
@@ -81,8 +88,7 @@ public:
 		  else
 			  fishRotation = 0;
 	  }
-
-	  if (true == professorTurn)
+	  else // professorTurn == true
 	  {
 		  if (professorTurnCount < 180)
 		  {
@@ -92,8 +98,8 @@ public:
 		  else
 		  {
 			  professorTurnCount = 0;
-			  professorTurn = false;
-			  professorMoveRight = !professorMoveRight;
+			  professorTurning = false;
+			  professorDirection = !professorDirection;
 		  }
 	  }
 
@@ -186,12 +192,12 @@ public:
     node1->attachObject(entity1);
 
 	node1->yaw(Degree(90.0f));
-
+	
     Entity* entity2 = mSceneMgr->createEntity("Fish", "fish.mesh");
-    SceneNode* node2 = node1->createChildSceneNode("Fish", Vector3(0.0f, 0.0f, 0.0f));
+	SceneNode* node2 = node1->createChildSceneNode("Fish", Vector3(0.0f, 0.0f, 0.0f));
     node2->attachObject(entity2);
 	node2->scale(8, 8, 8);
-	node2->yaw(Degree(180.0f));
+	node2->yaw(Degree(0.0f));
 
     mESCListener =new ESCListener(mKeyboard);
     mRoot->addFrameListener(mESCListener);
