@@ -63,7 +63,7 @@ public:
 
 			  }
 		  }
-		  else if (false == professorMoveRight)
+		  else
 		  {
 			  if (mProfessorNode->getPosition().x > -DISTANCE)
 				  mProfessorNode->translate(-VELOCITY * evt.timeSinceLastFrame, 0, 0);
