@@ -46,13 +46,13 @@ public:
     // Fill Here ----------------------------------------------
 
 	  static bool professorTurn = false;
-	  static bool professorMove = true;
+	  //static bool professorMove = true;
 	  static bool professorMoveRight = true;
 
 	  static float professorTurnCount;
 	  static float fishRotation = 0;
 
-	  if (true == professorMove)
+	  if (false == professorTurn)
 	  {
 		  if (true == professorMoveRight)
 		  {
@@ -60,7 +60,6 @@ public:
 				  mProfessorNode->translate(VELOCITY * evt.timeSinceLastFrame, 0, 0);
 			  else
 			  {
-				  professorMove = false;
 				  professorTurn = true;
 
 			  }
@@ -71,11 +70,17 @@ public:
 				  mProfessorNode->translate(-VELOCITY * evt.timeSinceLastFrame, 0, 0);
 			  else
 			  {
-				  professorMove = false;
 				  professorTurn = true;
 
 			  }
 		  }
+
+		  if (fishRotation < 360)
+			  fishRotation += VELOCITY * evt.timeSinceLastFrame;
+		  else
+			  fishRotation = 0;
+		  mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
+		  mFishNode->setPosition(100 * sin(DEGTORAD(fishRotation)), 0, 100 * cos(DEGTORAD(fishRotation)));
 	  }
 
 	  if (true == professorTurn)
@@ -89,18 +94,8 @@ public:
 		  {
 			  professorTurnCount = 0;
 			  professorTurn = false;
-			  professorMove = true;
 			  professorMoveRight = !professorMoveRight;
 		  }
-	  }
-
-	  if (true == professorMove){
-		  if (fishRotation < 360)
-			  fishRotation += VELOCITY * evt.timeSinceLastFrame;
-		  else
-			  fishRotation = 0;
-		  mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
-		  mFishNode->setPosition(100 * sin(DEGTORAD(fishRotation)), 0, 100 * cos(DEGTORAD(fishRotation)));
 	  }
 
 
