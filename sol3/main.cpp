@@ -43,62 +43,63 @@ public:
 
     // Fill Here ----------------------------------------------
 
-	  static bool turn_sw = false;
-	  static bool move_sw = true;
-	  static bool move_R = true;
-	  static int fish_r = 0;
+	  static bool professorTurn = false;
+	  static bool professorMove = true;
+	  static bool professorMoveRight = true;
 
-	  static int tem;
+	  static int professorTurnCount;
+	  static int fishRotation = 0;
 
-	  if (true == move_sw && true == move_R)
+
+	  if (true == professorMove && true == professorMoveRight)
 	  {
 		  if (mProfessorNode->getPosition().x < 250)
 			  mProfessorNode->translate(1, 0, 0);
 		  else
 		  {
-			  move_sw = false;
-			  turn_sw = true;
+			  professorMove = false;
+			  professorTurn = true;
 
 		  }
 	  }
-	  else if (true == move_sw && false == move_R)
+	  else if (true == professorMove && false == professorMoveRight)
 	  {
 		  if (mProfessorNode->getPosition().x > -250)
 			  mProfessorNode->translate(-1, 0, 0);
 		  else
 		  {
-			  move_sw = false;
-			  turn_sw = true;
+			  professorMove = false;
+			  professorTurn = true;
 
 		  }
 	  }
 
-	  if (true == turn_sw)
+	  if (true == professorTurn)
 	  {
-		  if (tem < 180)
+		  if (professorTurnCount < 180)
 		  {
 			  mProfessorNode->yaw(Degree(1.0f));
-			  tem += 1;
+			  professorTurnCount += 1;
 		  }
 		  else
 		  {
-			  tem = 0;
-			  turn_sw = false;
-			  move_sw = true;
-			  move_R = !move_R;
+			  professorTurnCount = 0;
+			  professorTurn = false;
+			  professorMove = true;
+			  professorMoveRight = !professorMoveRight;
 		  }
 	  }
 
-	  if (true == move_sw){
+	  if (true == professorMove){
 
 		  mFishNode->yaw(Degree(1.0f));
-		  if (fish_r < 360)
-			  fish_r += 1;
+		  if (fishRotation < 360)
+			  fishRotation += 1;
 		  else
-			  fish_r = 0;
+			  fishRotation = 0;
 	  }
 
-	  mFishNode->setPosition(100 * sin(DEGTORAD(fish_r)), 0, 100 * cos(DEGTORAD(fish_r)));
+	  mFishNode->setPosition(100 * sin(DEGTORAD(fishRotation)), 0, 100 * cos(DEGTORAD(fishRotation)));
 
     // --------------------------------------------------------
 
