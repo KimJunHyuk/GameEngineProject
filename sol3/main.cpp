@@ -46,7 +46,6 @@ public:
     // Fill Here ----------------------------------------------
 
 	  static bool professorTurn = false;
-	  //static bool professorMove = true;
 	  static bool professorMoveRight = true;
 
 	  static float professorTurnCount;
