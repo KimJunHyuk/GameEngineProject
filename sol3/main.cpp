@@ -11,7 +11,7 @@
 using namespace Ogre;
 
 #define DEGTORAD(A) A*3.141592/180
-#define VELOCITY 150
+#define VELOCITY 300
 #define DISTANCE 250
 
 class ESCListener : public FrameListener {
@@ -95,7 +95,6 @@ public:
 	  }
 
 	  if (true == professorMove){
-
 		  if (fishRotation < 360)
 			  fishRotation += VELOCITY * evt.timeSinceLastFrame;
 		  else
