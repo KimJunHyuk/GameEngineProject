@@ -10,7 +10,6 @@
 
 using namespace Ogre;
 
-#define DEGTORAD(A) A*3.141592/180
 #define DIRECTION_RIGHT true
 #define DIRECTION_LEFT false
 #define VELOCITY 300
@@ -50,8 +49,8 @@ public:
 	  static bool professorTurning = false;
 	  static bool professorDirection = DIRECTION_RIGHT;
 
-	  static float professorTurnCount;
-	  static float fishRotation = 0;
+	  static float professorRotateCount = 0;
+	  
 
 	  if (!professorTurning)
 	  {
@@ -76,28 +75,21 @@ public:
 			  }
 		  }
 
-		  ////mFishNode->setPosition(0,0,0);
-		  //mFishNode->translate(0,0,-100);
-		  //mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
-		  //mFishNode->translate(0,0,100);
+		  mFishNode->setPosition(0,0,0);
+		  mFishNode->yaw(-Degree(VELOCITY * evt.timeSinceLastFrame), Node::TS_LOCAL);
+		  mFishNode->translate(0, 0, 100, Node::TS_LOCAL);
 
-		  mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
-		  mFishNode->setPosition(100 * sin(DEGTORAD(fishRotation)), 0, 100 * cos(DEGTORAD(fishRotation)));
-		  if (fishRotation < 360)
-			  fishRotation += VELOCITY * evt.timeSinceLastFrame;
-		  else
-			  fishRotation = 0;
 	  }
 	  else // professorTurn == true
 	  {
-		  if (professorTurnCount < 180)
+		  if (professorRotateCount < 180)
 		  {
-			  mProfessorNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
-			  professorTurnCount += VELOCITY * evt.timeSinceLastFrame;
+			  mProfessorNode->yaw(-Degree(VELOCITY * evt.timeSinceLastFrame));
+			  professorRotateCount += VELOCITY * evt.timeSinceLastFrame;
 		  }
 		  else
 		  {
-			  professorTurnCount = 0;
+			  professorRotateCount = 0;
 			  professorTurning = false;
 			  professorDirection = !professorDirection;
 		  }
@@ -194,10 +186,11 @@ public:
 	node1->yaw(Degree(90.0f));
 	
     Entity* entity2 = mSceneMgr->createEntity("Fish", "fish.mesh");
-	SceneNode* node2 = node1->createChildSceneNode("Fish", Vector3(0.0f, 0.0f, 0.0f));
+	SceneNode* node2 = node1->createChildSceneNode("Fish", Vector3(0.0f, 0.0f, 100.0f));
     node2->attachObject(entity2);
 	node2->scale(8, 8, 8);
-	node2->yaw(Degree(0.0f));
+	node2->yaw(Degree(90.0f));
+	//node2->setInheritOrientation(false);
 
     mESCListener =new ESCListener(mKeyboard);
     mRoot->addFrameListener(mESCListener);
