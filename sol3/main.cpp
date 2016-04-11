@@ -96,12 +96,12 @@ public:
 
 	  if (true == professorMove){
 
-		  mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
-		  mFishNode->setPosition(100 * sin(DEGTORAD(fishRotation)), 0, 100 * cos(DEGTORAD(fishRotation)));
 		  if (fishRotation < 360)
 			  fishRotation += VELOCITY * evt.timeSinceLastFrame;
 		  else
 			  fishRotation = 0;
+		  mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
+		  mFishNode->setPosition(100 * sin(DEGTORAD(fishRotation)), 0, 100 * cos(DEGTORAD(fishRotation)));
 	  }
 
 
