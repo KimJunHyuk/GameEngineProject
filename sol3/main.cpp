@@ -52,26 +52,29 @@ public:
 	  static float professorTurnCount;
 	  static float fishRotation = 0;
 
-	  if (true == professorMove && true == professorMoveRight)
+	  if (true == professorMove)
 	  {
-		  if (mProfessorNode->getPosition().x < DISTANCE)
-			  mProfessorNode->translate(VELOCITY * evt.timeSinceLastFrame, 0, 0);
-		  else
+		  if (true == professorMoveRight)
 		  {
-			  professorMove = false;
-			  professorTurn = true;
+			  if (mProfessorNode->getPosition().x < DISTANCE)
+				  mProfessorNode->translate(VELOCITY * evt.timeSinceLastFrame, 0, 0);
+			  else
+			  {
+				  professorMove = false;
+				  professorTurn = true;
 
+			  }
 		  }
-	  }
-	  else if (true == professorMove && false == professorMoveRight)
-	  {
-		  if (mProfessorNode->getPosition().x > -DISTANCE)
-			  mProfessorNode->translate(-VELOCITY * evt.timeSinceLastFrame, 0, 0);
-		  else
+		  else if (false == professorMoveRight)
 		  {
-			  professorMove = false;
-			  professorTurn = true;
+			  if (mProfessorNode->getPosition().x > -DISTANCE)
+				  mProfessorNode->translate(-VELOCITY * evt.timeSinceLastFrame, 0, 0);
+			  else
+			  {
+				  professorMove = false;
+				  professorTurn = true;
 
+			  }
 		  }
 	  }
 
