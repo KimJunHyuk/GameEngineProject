@@ -11,6 +11,8 @@
 using namespace Ogre;
 
 #define DEGTORAD(A) A*3.141592/180
+#define VELOCITY 150
+#define DISTANCE 250
 
 class ESCListener : public FrameListener {
 	OIS::Keyboard *mKeyboard;
@@ -47,14 +49,13 @@ public:
 	  static bool professorMove = true;
 	  static bool professorMoveRight = true;
 
-	  static int professorTurnCount;
-	  static int fishRotation = 0;
-
+	  static float professorTurnCount;
+	  static float fishRotation = 0;
 
 	  if (true == professorMove && true == professorMoveRight)
 	  {
-		  if (mProfessorNode->getPosition().x < 250)
-			  mProfessorNode->translate(1, 0, 0);
+		  if (mProfessorNode->getPosition().x < DISTANCE)
+			  mProfessorNode->translate(VELOCITY * evt.timeSinceLastFrame, 0, 0);
 		  else
 		  {
 			  professorMove = false;
@@ -64,8 +65,8 @@ public:
 	  }
 	  else if (true == professorMove && false == professorMoveRight)
 	  {
-		  if (mProfessorNode->getPosition().x > -250)
-			  mProfessorNode->translate(-1, 0, 0);
+		  if (mProfessorNode->getPosition().x > -DISTANCE)
+			  mProfessorNode->translate(-VELOCITY * evt.timeSinceLastFrame, 0, 0);
 		  else
 		  {
 			  professorMove = false;
@@ -78,8 +79,8 @@ public:
 	  {
 		  if (professorTurnCount < 180)
 		  {
-			  mProfessorNode->yaw(Degree(1.0f));
-			  professorTurnCount += 1;
+			  mProfessorNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
+			  professorTurnCount += VELOCITY * evt.timeSinceLastFrame;
 		  }
 		  else
 		  {
@@ -92,9 +93,9 @@ public:
 
 	  if (true == professorMove){
 
-		  mFishNode->yaw(Degree(1.0f));
+		  mFishNode->yaw(Degree(VELOCITY * evt.timeSinceLastFrame));
 		  if (fishRotation < 360)
-			  fishRotation += 1;
+			  fishRotation += VELOCITY * evt.timeSinceLastFrame;
 		  else
 			  fishRotation = 0;
 	  }
