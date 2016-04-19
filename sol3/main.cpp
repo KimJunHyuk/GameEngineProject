@@ -12,7 +12,8 @@ using namespace Ogre;
 
 #define DIRECTION_RIGHT true
 #define DIRECTION_LEFT false
-#define VELOCITY 300
+#define MOVING_SPEED 300
+#define ROTATION_SPEED 300
 #define DISTANCE 250
 
 class ESCListener : public FrameListener {
@@ -49,47 +50,39 @@ public:
 	  static bool professorTurning = false;
 	  static bool professorDirection = DIRECTION_RIGHT;
 
-	  static float professorRotateCount = 0;
+	  static float professorRotation = 0;
 	  
 
 	  if (!professorTurning)
 	  {
 		  if (DIRECTION_RIGHT == professorDirection)
 		  {
-			  if (mProfessorNode->getPosition().x < DISTANCE)
-				  mProfessorNode->translate(VELOCITY * evt.timeSinceLastFrame, 0, 0);
-			  else
-			  {
-				  professorTurning = true;
-
-			  }
+			  mProfessorNode->getPosition().x < DISTANCE
+				  ? mProfessorNode->translate(MOVING_SPEED * evt.timeSinceLastFrame, 0, 0)
+				  : professorTurning = true;
 		  }
 		  else // DIRECTION_REFT == professorDirection
 		  {
-			  if (mProfessorNode->getPosition().x > -DISTANCE)
-				  mProfessorNode->translate(-VELOCITY * evt.timeSinceLastFrame, 0, 0);
-			  else
-			  {
-				  professorTurning = true;
-
-			  }
+			  mProfessorNode->getPosition().x > -DISTANCE
+				  ? mProfessorNode->translate(-MOVING_SPEED * evt.timeSinceLastFrame, 0, 0)
+				  : professorTurning = true;
 		  }
 
 		  mFishNode->setPosition(0,0,0);
-		  mFishNode->yaw(-Degree(VELOCITY * evt.timeSinceLastFrame), Node::TS_LOCAL);
+		  mFishNode->yaw(-Degree(ROTATION_SPEED * evt.timeSinceLastFrame));
 		  mFishNode->translate(0, 0, 100, Node::TS_LOCAL);
 
 	  }
 	  else // professorTurn == true
 	  {
-		  if (professorRotateCount < 180)
+		  if (professorRotation < 180)
 		  {
-			  mProfessorNode->yaw(-Degree(VELOCITY * evt.timeSinceLastFrame));
-			  professorRotateCount += VELOCITY * evt.timeSinceLastFrame;
+			  mProfessorNode->yaw(-Degree(ROTATION_SPEED * evt.timeSinceLastFrame));
+			  professorRotation += ROTATION_SPEED * evt.timeSinceLastFrame;
 		  }
 		  else
 		  {
-			  professorRotateCount = 0;
+			  professorRotation = 0;
 			  professorTurning = false;
 			  professorDirection = !professorDirection;
 		  }
